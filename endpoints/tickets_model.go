@@ -19,10 +19,20 @@ func NewTicketsEndpoint(client *octo.Client) *TicketsEndpoint {
 }
 
 // CreateTicket creates a new ticket.
-func (t *TicketsEndpoint) CreateTicket(ticket *models.Ticket) error {
+func (t *TicketsEndpoint) CreateTicket(ticketModel *models.Ticket) (*models.Ticket, error) {
 	endpoint := "/v1/tickets"
-	_, err := t.client.DoRequest("POST", endpoint, ticket)
-	return err
+	resp, err := t.client.DoRequest("POST", endpoint, ticketModel)
+	if err != nil {
+		return nil, err
+	}
+
+	var ticket models.Ticket
+	err = parser.ParseDataToType(resp.Data, &ticket)
+	if err != nil {
+		return nil, err
+	}
+
+	return &ticket, nil
 }
 
 // DeleteTicket deletes a ticket.
