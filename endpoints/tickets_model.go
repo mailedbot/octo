@@ -67,8 +67,8 @@ func (t *TicketsEndpoint) GetTickets(guild int) ([]models.Ticket, error) {
 }
 
 // GetTicketsByUserId gets all tickets by user ID.
-func (t *TicketsEndpoint) GetTicketsByUserId(guild int, userID string) ([]models.Ticket, error) {
-	endpoint := fmt.Sprintf("/v1/tickets/%d/user/%s", guild, userID)
+func (t *TicketsEndpoint) GetTicketsByUserId(userID string) ([]models.Ticket, error) {
+	endpoint := fmt.Sprintf("/v1/tickets/user/%s", userID)
 	resp, err := t.client.DoRequest("GET", endpoint, nil)
 	if err != nil {
 		return nil, err
