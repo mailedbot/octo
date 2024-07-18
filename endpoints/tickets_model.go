@@ -59,6 +59,23 @@ func (t *TicketsEndpoint) GetTicket(guild int, ticketID string) (*models.Ticket,
 	return &ticket, nil
 }
 
+// GetTicket gets a ticket by ticket ID.
+func (t *TicketsEndpoint) GetTicketByTicketID(ticketID string) (*models.Ticket, error) {
+	endpoint := fmt.Sprintf("/v1/tickets/id/%s", ticketID)
+	resp, err := t.client.DoRequest("GET", endpoint, nil)
+	if err != nil {
+		return nil, err
+	}
+
+	var ticket models.Ticket
+	err = parser.ParseDataToType(resp.Data, &ticket)
+	if err != nil {
+		return nil, err
+	}
+
+	return &ticket, nil
+}
+
 // GetTickets gets all tickets.
 func (t *TicketsEndpoint) GetTickets(guild int) ([]models.Ticket, error) {
 	endpoint := fmt.Sprintf("/v1/tickets/%d", guild)
@@ -94,8 +111,8 @@ func (t *TicketsEndpoint) GetTicketsByUserId(userID string) ([]models.Ticket, er
 }
 
 // UpdateTicket updates a ticket.
-func (t *TicketsEndpoint) UpdateTicket(ticket *models.Ticket) error {
-	endpoint := "/v1/tickets"
+func (t *TicketsEndpoint) UpdateTicket(ticketId string, ticket *models.Ticket) error {
+	endpoint := fmt.Sprintf("/v1/tickets/%s", ticketId)
 	_, err := t.client.DoRequest("PUT", endpoint, ticket)
 	return err
 }
