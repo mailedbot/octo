@@ -36,15 +36,15 @@ func (t *TicketsEndpoint) CreateTicket(ticketModel *models.Ticket) (*models.Tick
 }
 
 // DeleteTicket deletes a ticket.
-func (t *TicketsEndpoint) DeleteTicket(guild int, channel int, ticketID string) error {
-	endpoint := fmt.Sprintf("/v1/tickets/%d/%d/%s", guild, channel, ticketID)
+func (t *TicketsEndpoint) DeleteTicket(ticketID string) error {
+	endpoint := fmt.Sprintf("/v1/tickets/%s", ticketID)
 	_, err := t.client.DoRequest("DELETE", endpoint, nil)
 	return err
 }
 
 // GetTicket gets a ticket by ID.
-func (t *TicketsEndpoint) GetTicket(guild int, ticketID string) (*models.Ticket, error) {
-	endpoint := fmt.Sprintf("/v1/tickets/%d/%s", guild, ticketID)
+func (t *TicketsEndpoint) GetTicket(ticketID string) (*models.Ticket, error) {
+	endpoint := fmt.Sprintf("/v1/tickets/%s", ticketID)
 	resp, err := t.client.DoRequest("GET", endpoint, nil)
 	if err != nil {
 		return nil, err
@@ -77,8 +77,8 @@ func (t *TicketsEndpoint) GetTicketByTicketID(ticketID string) (*models.Ticket, 
 }
 
 // GetTickets gets all tickets.
-func (t *TicketsEndpoint) GetTickets(guild int) ([]models.Ticket, error) {
-	endpoint := fmt.Sprintf("/v1/tickets/%d", guild)
+func (t *TicketsEndpoint) GetTickets(guild string) ([]models.Ticket, error) {
+	endpoint := fmt.Sprintf("/v1/tickets/%s", guild)
 	resp, err := t.client.DoRequest("GET", endpoint, nil)
 	if err != nil {
 		return nil, err

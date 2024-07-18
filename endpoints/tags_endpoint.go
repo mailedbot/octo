@@ -26,15 +26,15 @@ func (t *TagsEndpoint) CreateTag(tag *models.Tag) error {
 }
 
 // DeleteTag deletes a tag.
-func (t *TagsEndpoint) DeleteTag(guildID int, tagName string) error {
-	endpoint := fmt.Sprintf("/v1/tags/%d/%s", guildID, tagName)
+func (t *TagsEndpoint) DeleteTag(guildID string, tagName string) error {
+	endpoint := fmt.Sprintf("/v1/tags/%s/%s", guildID, tagName)
 	_, err := t.client.DoRequest("DELETE", endpoint, nil)
 	return err
 }
 
 // GetTag gets a tag by name.
-func (t *TagsEndpoint) GetTag(guildID int, tagName string) (*models.Tag, error) {
-	endpoint := fmt.Sprintf("/v1/tags/%d/%s", guildID, tagName)
+func (t *TagsEndpoint) GetTag(guildID string, tagName string) (*models.Tag, error) {
+	endpoint := fmt.Sprintf("/v1/tags/%s/%s", guildID, tagName)
 	resp, err := t.client.DoRequest("GET", endpoint, nil)
 	if err != nil {
 		return nil, err
@@ -50,8 +50,8 @@ func (t *TagsEndpoint) GetTag(guildID int, tagName string) (*models.Tag, error) 
 }
 
 // GetTags gets all tags.
-func (t *TagsEndpoint) GetTags(guildID int) ([]models.Tag, error) {
-	endpoint := fmt.Sprintf("/v1/tags/%d", guildID)
+func (t *TagsEndpoint) GetTags(guildID string) ([]models.Tag, error) {
+	endpoint := fmt.Sprintf("/v1/tags/%s", guildID)
 	resp, err := t.client.DoRequest("GET", endpoint, nil)
 	if err != nil {
 		return nil, err
