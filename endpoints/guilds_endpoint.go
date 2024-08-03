@@ -25,16 +25,16 @@ func (g *GuildsEndpoint) CreateGuild(guild *models.Guild) error {
 	return err
 }
 
-// DeleteGuild deletes a guild.
-func (g *GuildsEndpoint) DeleteGuild(guildID string) error {
-	endpoint := fmt.Sprintf("/v1/guilds/%s", guildID)
+// DeleteGuild deletes a guild by ID.
+func (g *GuildsEndpoint) DeleteGuildByID(guildID string) error {
+	endpoint := fmt.Sprintf("/v1/guilds?guild_id=%s", guildID)
 	_, err := g.client.DoRequest("DELETE", endpoint, nil)
 	return err
 }
 
 // GetGuild gets a guild by ID.
-func (g *GuildsEndpoint) GetGuild(guildID string) (*models.Guild, error) {
-	endpoint := fmt.Sprintf("/v1/guilds/%s", guildID)
+func (g *GuildsEndpoint) GetGuildByID(guildID string) (*models.Guild, error) {
+	endpoint := fmt.Sprintf("/v1/guilds?guild_id=%s", guildID)
 	resp, err := g.client.DoRequest("GET", endpoint, nil)
 	if err != nil {
 		return nil, err
@@ -66,9 +66,9 @@ func (g *GuildsEndpoint) GetGuilds() ([]models.Guild, error) {
 	return guilds, nil
 }
 
-// UpdateGuild updates a guild.
-func (g *GuildsEndpoint) UpdateGuild(guild *models.Guild) error {
-	endpoint := fmt.Sprintf("/v1/guilds/%s", guild.Guild)
+// UpdateGuild updates a guild by ID.
+func (g *GuildsEndpoint) UpdateGuildByID(guildID string, guild *models.Guild) error {
+	endpoint := fmt.Sprintf("/v1/guilds?guild_id=%s", guildID)
 	_, err := g.client.DoRequest("PUT", endpoint, guild)
 	return err
 }
